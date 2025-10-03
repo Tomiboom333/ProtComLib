@@ -7,8 +7,10 @@
 void i2c_init(I2C_TypeDef* I2Cx){
 
     I2Cx -> CR1 |= I2C_CR1_SWRST;
-    //trise 
-    
+
+    I2Cx -> TRISE = 37;
+    I2Cx -> CCR = 180;
+
     if(I2Cx == I2C1){
         RCC->APB1ENR |= RCC_APB1ENR_I2C1EN;
         RCC->APB2ENR |= RCC_APB2ENR_IOPBEN;
@@ -18,7 +20,7 @@ void i2c_init(I2C_TypeDef* I2Cx){
         // Configura SDA1 (AF open-drain)
         GPIOB->CRL &= ~(0xF << SDA1*4);
         GPIOB->CRL |= (0b1110 << SDA1*4);
-        I2Cx -> TRISE 
+
         I2Cx->CR2 = 36;
     }else if(I2Cx == I2C2){
         RCC->APB1ENR |= RCC_APB1ENR_I2C2EN;
